@@ -1,0 +1,1995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LostFound Darwin</title>
+
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f8f7;
+    color:#183b35;
+}
+button,input,select,textarea{font-family:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+
+/* COMMON */
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:21px;
+    font-weight:bold;
+}
+.logo{
+    width:42px;
+    height:42px;
+    background:#176b5b;
+    color:white;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+}
+.btn{
+    border:none;
+    padding:12px 18px;
+    border-radius:8px;
+    font-weight:bold;
+}
+.btn-primary{background:#176b5b;color:white}
+.btn-primary:hover{background:#115548}
+.btn-outline{
+    background:white;
+    color:#176b5b;
+    border:1px solid #176b5b;
+}
+.btn-danger{
+    background:#f3dddd;
+    color:#913838;
+}
+.small-title{
+    color:#176b5b;
+    font-size:12px;
+    font-weight:bold;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+/* LOGIN */
+#loginPage{
+    min-height:100vh;
+    background:linear-gradient(135deg,#eff8f4,#d8eee7);
+}
+.login-header{
+    height:75px;
+    padding:0 7%;
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #dde7e3;
+}
+.login-header small{color:#6e807a}
+.login-main{
+    min-height:calc(100vh - 75px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+}
+.login-container{
+    width:100%;
+    max-width:1000px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    background:white;
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 25px 60px rgba(23,80,68,.13);
+}
+.login-left{
+    background:#176b5b;
+    color:white;
+    padding:60px;
+}
+.login-left h1{
+    font-size:45px;
+    margin:25px 0 15px;
+}
+.login-left p{
+    line-height:1.7;
+    color:#d7eae5;
+}
+.pill{
+    display:inline-block;
+    padding:7px 12px;
+    border-radius:20px;
+    background:rgba(255,255,255,.15);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+.feature{margin:16px 0}
+.login-right{padding:50px}
+.login-right h2{
+    margin-top:0;
+    font-size:30px;
+}
+.login-right>p{color:#6f817b}
+.login-options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin:25px 0;
+}
+.login-option{
+    padding:18px 10px;
+    border:2px solid #dfe8e4;
+    border-radius:12px;
+    background:white;
+    text-align:center;
+}
+.login-option.active{
+    border-color:#176b5b;
+    background:#edf7f3;
+}
+.login-option .icon{
+    display:block;
+    font-size:26px;
+    margin-bottom:8px;
+}
+.login-option small{
+    display:block;
+    color:#75867f;
+    margin-top:5px;
+}
+label{
+    display:block;
+    margin-top:16px;
+    font-size:13px;
+    font-weight:bold;
+}
+input,select,textarea{
+    width:100%;
+    display:block;
+    margin-top:7px;
+    padding:12px;
+    border:1px solid #c7d5d0;
+    border-radius:8px;
+    outline:none;
+    background:white;
+}
+input:focus,select:focus,textarea:focus{
+    border-color:#176b5b;
+}
+textarea{
+    min-height:110px;
+    resize:vertical;
+}
+.login-submit{
+    width:100%;
+    margin-top:24px;
+}
+.error{
+    display:none;
+    margin-top:15px;
+    background:#fbe1e1;
+    color:#9b3535;
+    padding:11px;
+    border-radius:8px;
+}
+.demo{
+    background:#f4f7f6;
+    margin-top:20px;
+    padding:13px;
+    border-radius:8px;
+    color:#64766f;
+    font-size:12px;
+    line-height:1.7;
+}
+
+/* PUBLIC */
+.public-header{
+    height:72px;
+    background:white;
+    padding:0 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:100;
+    border-bottom:1px solid #dde7e3;
+}
+.public-nav{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+.public-nav a{
+    color:#405851;
+    text-decoration:none;
+    font-size:14px;
+}
+.hero{
+    min-height:580px;
+    padding:75px 7%;
+    background:linear-gradient(135deg,#f8fbf9,#e5f3ee);
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    gap:60px;
+    align-items:center;
+}
+.hero h1{
+    font-size:58px;
+    line-height:1.05;
+    margin:20px 0;
+}
+.hero h1 span{color:#176b5b}
+.hero p{
+    color:#5d6f69;
+    font-size:18px;
+    line-height:1.7;
+}
+.hero-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:28px;
+}
+.how-card{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+}
+.step{
+    display:flex;
+    gap:13px;
+    margin:20px 0;
+}
+.step-number{
+    min-width:30px;
+    height:30px;
+    background:#dff1eb;
+    color:#176b5b;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+.step p{
+    margin:4px 0;
+    font-size:13px;
+}
+.public-section{padding:75px 7%}
+.light{background:#edf6f2}
+.public-section h2{
+    font-size:37px;
+    margin:8px 0 25px;
+}
+.search-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    gap:20px;
+}
+.search-box{max-width:330px}
+.filters{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin:25px 0;
+}
+.filter{
+    border:1px solid #cbd8d3;
+    background:white;
+    padding:8px 14px;
+    border-radius:20px;
+}
+.filter.active{
+    background:#176b5b;
+    color:white;
+}
+.item-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+.item-card{
+    background:white;
+    padding:22px;
+    border:1px solid #dce5e1;
+    border-radius:14px;
+}
+.item-card p{
+    color:#60716c;
+    line-height:1.6;
+}
+.tag{
+    display:inline-block;
+    background:#e2f1ec;
+    color:#176b5b;
+    padding:5px 9px;
+    border-radius:12px;
+    font-size:11px;
+}
+.case{
+    color:#81908b;
+    font-size:12px;
+}
+.form-grid{
+    max-width:800px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:17px;
+}
+.full{grid-column:1/-1}
+.success{
+    display:none;
+    max-width:800px;
+    margin-top:20px;
+    background:#dff2e8;
+    color:#176b5b;
+    padding:14px;
+    border-radius:8px;
+}
+.help-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+.help-card{
+    background:white;
+    border:1px solid #dce5e1;
+    border-radius:14px;
+    padding:22px;
+}
+.help-card p{
+    color:#60716c;
+    line-height:1.6;
+}
+footer{
+    padding:45px 7%;
+    background:#123e35;
+    color:white;
+}
+footer p{color:#bfd1cb}
+
+/* ADMIN */
+#adminPage{
+    min-height:100vh;
+    background:#f4f7f6;
+}
+.sidebar{
+    position:fixed;
+    width:235px;
+    height:100vh;
+    background:#123e35;
+    color:white;
+    padding:25px 18px;
+}
+.sidebar-logo{margin-bottom:40px}
+.sidebar small{color:#bad0ca}
+.admin-menu button{
+    display:block;
+    width:100%;
+    padding:13px;
+    margin:5px 0;
+    text-align:left;
+    background:transparent;
+    color:#d6e6e1;
+    border:none;
+    border-radius:8px;
+}
+.admin-menu button.active,
+.admin-menu button:hover{
+    background:#1d594d;
+}
+.admin-main{
+    margin-left:235px;
+    padding:30px;
+}
+.admin-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:17px;
+    margin:30px 0;
+}
+.stat{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    border:1px solid #dce5e1;
+}
+.stat p{
+    margin:0;
+    color:#71817c;
+    font-size:13px;
+}
+.stat h2{
+    margin:10px 0 0;
+    color:#176b5b;
+    font-size:30px;
+}
+.panel{
+    background:white;
+    padding:22px;
+    border:1px solid #dce5e1;
+    border-radius:12px;
+    margin-top:20px;
+}
+.admin-section{display:none}
+.admin-section.active{display:block}
+.warning{
+    background:#fff6d9;
+    border-left:4px solid #d6a92d;
+    padding:14px;
+    margin-top:20px;
+}
+.table-wrap{overflow-x:auto}
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+th{
+    background:#f4f7f6;
+    color:#64766f;
+    text-align:left;
+    padding:12px;
+    font-size:12px;
+}
+td{
+    padding:13px 12px;
+    border-bottom:1px solid #edf1ef;
+    font-size:13px;
+}
+.status{
+    display:inline-block;
+    padding:5px 8px;
+    border-radius:15px;
+    font-size:11px;
+}
+.pending{
+    background:#fff0c7;
+    color:#806012;
+}
+.approved{
+    background:#dcf2e7;
+    color:#176b5b;
+}
+.need-info{
+    background:#e2edfb;
+    color:#315d8a;
+}
+.resolved{
+    background:#e8e8e8;
+    color:#555;
+}
+.action-btn{
+    border:none;
+    padding:7px 9px;
+    border-radius:6px;
+    margin:2px;
+    font-size:12px;
+}
+.approve-btn{
+    background:#176b5b;
+    color:white;
+}
+.info-btn{
+    background:#e2edfb;
+    color:#315d8a;
+}
+.resolve-btn{
+    background:#354f49;
+    color:white;
+}
+.match-card{
+    border:1px solid #dce5e1;
+    border-radius:10px;
+    padding:18px;
+    margin-top:15px;
+}
+
+/* MOBILE */
+@media(max-width:800px){
+    .login-container,.hero{
+        grid-template-columns:1fr;
+    }
+    .login-left,.login-right{
+        padding:35px;
+    }
+    .hero h1{
+        font-size:42px;
+    }
+    .public-nav a{
+        display:none;
+    }
+    .item-grid,.help-grid,.stats{
+        grid-template-columns:1fr 1fr;
+    }
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+    .full{
+        grid-column:auto;
+    }
+    .sidebar{
+        position:static;
+        width:100%;
+        height:auto;
+    }
+    .admin-main{
+        margin-left:0;
+    }
+}
+
+@media(max-width:550px){
+    .login-options,.item-grid,.help-grid,.stats{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage">
+
+<header class="login-header">
+    <div class="logo-area">
+        <div class="logo">LF</div>
+        LostFound
+    </div>
+    <small>Darwin Community Pilot</small>
+</header>
+
+<div class="login-main">
+
+<div class="login-container">
+
+<div class="login-left">
+
+    <span class="pill">
+        PMO201 Group 6 Prototype
+    </span>
+
+    <h1>Welcome to LostFound</h1>
+
+    <p>
+        A community lost-and-found service designed
+        to make reporting, finding and returning lost
+        property in Darwin safer and easier.
+    </p>
+
+    <div class="feature">✓ Report lost items</div>
+    <div class="feature">✓ Browse approved reports</div>
+    <div class="feature">✓ Report possible matches</div>
+    <div class="feature">✓ Moderator review</div>
+    <div class="feature">✓ Ownership verification</div>
+
+</div>
+
+<div class="login-right">
+
+    <h2>Sign In</h2>
+
+    <p>Choose how you want to access LostFound.</p>
+
+    <div class="login-options">
+
+        <button
+            id="publicChoice"
+            class="login-option active"
+            onclick="chooseLogin('public')">
+
+            <span class="icon">👤</span>
+            <strong>Public User</strong>
+            <small>Report & find items</small>
+
+        </button>
+
+        <button
+            id="adminChoice"
+            class="login-option"
+            onclick="chooseLogin('admin')">
+
+            <span class="icon">⚙️</span>
+            <strong>Administrator</strong>
+            <small>Manage reports</small>
+
+        </button>
+
+    </div>
+
+    <form id="loginForm">
+
+        <label>
+            Email Address
+            <input
+                id="email"
+                type="email"
+                placeholder="Enter your email"
+                required>
+        </label>
+
+        <label>
+            Password
+            <input
+                id="password"
+                type="password"
+                placeholder="Enter your password"
+                required>
+        </label>
+
+        <button
+            id="loginBtn"
+            class="btn btn-primary login-submit"
+            type="submit">
+            Public User Login
+        </button>
+
+    </form>
+
+    <div id="loginError" class="error">
+        Incorrect administrator email or password.
+    </div>
+
+    <div class="demo">
+        <strong>Demo Login</strong>
+        <br><br>
+        Public User: use any valid email and password.
+        <br><br>
+        Admin Email:
+        <strong>admin@lostfound.com</strong>
+        <br>
+        Admin Password:
+        <strong>admin123</strong>
+    </div>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+<!-- PUBLIC PAGE -->
+<div id="publicPage" class="hidden">
+
+<header class="public-header">
+
+    <div class="logo-area">
+        <div class="logo">LF</div>
+        LostFound
+    </div>
+
+    <div class="public-nav">
+
+        <a href="#home">Home</a>
+        <a href="#browse">Browse</a>
+        <a href="#report">Report Item</a>
+        <a href="#match">Possible Match</a>
+        <a href="#help">Help</a>
+
+        <span id="userEmail"></span>
+
+        <button
+            class="btn btn-danger"
+            onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- HOME -->
+<div id="home" class="hero">
+
+<div>
+
+    <span class="small-title">
+        Darwin Community Pilot
+    </span>
+
+    <h1>
+        Lost something?
+        <br>
+        <span>
+            Let's help it find its way home.
+        </span>
+    </h1>
+
+    <p>
+        Report lost property, browse approved
+        reports and privately report possible matches.
+    </p>
+
+    <div class="hero-buttons">
+
+        <button
+            class="btn btn-primary"
+            onclick="goTo('report')">
+            Report a Lost Item
+        </button>
+
+        <button
+            class="btn btn-outline"
+            onclick="goTo('browse')">
+            Browse Lost Items
+        </button>
+
+    </div>
+
+</div>
+
+<div class="how-card">
+
+    <h2>How It Works</h2>
+
+    <div class="step">
+        <div class="step-number">1</div>
+        <div>
+            <strong>Report</strong>
+            <p>Tell us what you lost.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-number">2</div>
+        <div>
+            <strong>Review</strong>
+            <p>A moderator checks the report.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-number">3</div>
+        <div>
+            <strong>Match</strong>
+            <p>Possible matches are reported privately.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-number">4</div>
+        <div>
+            <strong>Verify & Return</strong>
+            <p>Ownership is checked before return.</p>
+        </div>
+    </div>
+
+</div>
+</div>
+
+
+<!-- BROWSE -->
+<section id="browse" class="public-section">
+
+<div class="search-row">
+
+    <div>
+        <span class="small-title">Approved Reports</span>
+        <h2>Browse Lost Items</h2>
+    </div>
+
+    <input
+        id="searchInput"
+        class="search-box"
+        type="text"
+        placeholder="Search item or location">
+
+</div>
+
+<div class="filters">
+
+    <button class="filter active" data-category="All">All</button>
+    <button class="filter" data-category="Electronics">Electronics</button>
+    <button class="filter" data-category="Keys">Keys</button>
+    <button class="filter" data-category="Bags">Bags</button>
+    <button class="filter" data-category="Clothing">Clothing</button>
+    <button class="filter" data-category="Other">Other</button>
+
+</div>
+
+<div id="itemContainer" class="item-grid"></div>
+
+</section>
+
+
+<!-- REPORT -->
+<section id="report" class="public-section light">
+
+<span class="small-title">
+    Private Submission
+</span>
+
+<h2>Report a Lost Item</h2>
+
+<p>
+    Do not include passwords, identification numbers,
+    home addresses or unnecessary private information.
+</p>
+
+<form id="reportForm" class="form-grid">
+
+<label>
+    Item Category
+
+    <select id="itemCategory" required>
+        <option value="">Select category</option>
+        <option>Electronics</option>
+        <option>Keys</option>
+        <option>Bags</option>
+        <option>Clothing</option>
+        <option>Other</option>
+    </select>
+</label>
+
+<label>
+    Date Lost
+    <input id="dateLost" type="date" required>
+</label>
+
+<label class="full">
+    Item Name
+    <input
+        id="itemName"
+        type="text"
+        placeholder="Example: Black headphones"
+        required>
+</label>
+
+<label class="full">
+    General Location
+    <input
+        id="itemLocation"
+        type="text"
+        placeholder="Example: Darwin CBD"
+        required>
+</label>
+
+<label class="full">
+    Description
+    <textarea
+        id="itemDescription"
+        placeholder="Describe the item..."
+        required></textarea>
+</label>
+
+<div>
+    <button
+        class="btn btn-primary"
+        type="submit">
+        Submit for Review
+    </button>
+</div>
+
+</form>
+
+<div id="reportSuccess" class="success">
+    <strong>Report received successfully.</strong>
+    <br><br>
+    Case number:
+    <strong id="newCaseNumber"></strong>
+    <br>
+    Status:
+    <strong>Awaiting Review</strong>
+</div>
+
+</section>
+
+
+<!-- MATCH -->
+<section id="match" class="public-section">
+
+<span class="small-title">
+    Private Contact
+</span>
+
+<h2>Report a Possible Match</h2>
+
+<form id="matchForm" class="form-grid">
+
+<label>
+    Case Number
+    <input
+        id="matchCase"
+        type="text"
+        placeholder="Example: LF-1001"
+        required>
+</label>
+
+<label>
+    Your Name
+    <input
+        id="matchName"
+        type="text"
+        required>
+</label>
+
+<label class="full">
+    Message
+    <textarea
+        id="matchMessage"
+        placeholder="Explain why you think this item matches..."
+        required></textarea>
+</label>
+
+<div>
+    <button
+        class="btn btn-primary"
+        type="submit">
+        Send Privately
+    </button>
+</div>
+
+</form>
+
+</section>
+
+
+<!-- HELP -->
+<section id="help" class="public-section light">
+
+<span class="small-title">Safety First</span>
+
+<h2>Get Help</h2>
+
+<div class="help-grid">
+
+<div class="help-card">
+    <h3>What We Can Help With</h3>
+    <p>
+        Lost bags, clothing, keys and suitable
+        personal electronic devices during the
+        Darwin pilot.
+    </p>
+</div>
+
+<div class="help-card">
+    <h3>What We Don't Handle</h3>
+    <p>
+        Missing people, missing animals, suspected
+        criminal matters, dangerous items or private
+        investigations.
+    </p>
+</div>
+
+<div class="help-card">
+    <h3>Safety & Referral</h3>
+    <p>
+        Dangerous items should not be handed to
+        LostFound. Valuable items, identification
+        documents and cash may require referral.
+    </p>
+</div>
+
+</div>
+</section>
+
+<footer>
+
+<div class="logo-area">
+    <div class="logo">LF</div>
+    LostFound
+</div>
+
+<p>
+    PMO201 Group 6 • Darwin, Northern Territory
+</p>
+
+<p>
+    Academic prototype — not a live lost-property service.
+</p>
+
+</footer>
+
+</div>
+
+
+<!-- ADMIN PAGE -->
+<div id="adminPage" class="hidden">
+
+<aside class="sidebar">
+
+<div class="logo-area sidebar-logo">
+
+    <div class="logo">LF</div>
+
+    <div>
+        LostFound
+        <br>
+        <small>Admin Portal</small>
+    </div>
+
+</div>
+
+<div class="admin-menu">
+
+    <button
+        class="admin-nav active"
+        onclick="showAdminSection('dashboard',this)">
+        Dashboard
+    </button>
+
+    <button
+        class="admin-nav"
+        onclick="showAdminSection('reports',this)">
+        Lost Item Reports
+    </button>
+
+    <button
+        class="admin-nav"
+        onclick="showAdminSection('matches',this)">
+        Possible Matches
+    </button>
+
+    <button
+        class="admin-nav"
+        onclick="showAdminSection('resolved',this)">
+        Resolved Cases
+    </button>
+
+</div>
+
+</aside>
+
+
+<main class="admin-main">
+
+<div class="admin-top">
+
+<div>
+    <h1>Admin Dashboard</h1>
+    <small>LostFound Darwin Community Pilot</small>
+</div>
+
+<button
+    class="btn btn-danger"
+    onclick="logout()">
+    Logout
+</button>
+
+</div>
+
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="admin-section active">
+
+<div class="stats">
+
+<div class="stat">
+    <p>Total Reports</p>
+    <h2 id="totalReports">0</h2>
+</div>
+
+<div class="stat">
+    <p>Awaiting Review</p>
+    <h2 id="pendingReports">0</h2>
+</div>
+
+<div class="stat">
+    <p>Approved</p>
+    <h2 id="approvedReports">0</h2>
+</div>
+
+<div class="stat">
+    <p>Resolved</p>
+    <h2 id="resolvedReports">0</h2>
+</div>
+
+</div>
+
+<div class="panel">
+
+<h2>Moderation Overview</h2>
+
+<p>
+    Review reports submitted by public users
+    before they appear on the public website.
+</p>
+
+<div class="warning">
+
+<strong>Privacy reminder:</strong>
+
+Remove unnecessary personal information and
+ownership evidence before approving a public listing.
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- REPORTS -->
+<section id="reports" class="admin-section">
+
+<div class="panel">
+
+<h2>Lost Item Reports</h2>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+    <th>Case</th>
+    <th>Item</th>
+    <th>Location</th>
+    <th>Date</th>
+    <th>Status</th>
+    <th>Actions</th>
+</tr>
+</thead>
+
+<tbody id="adminReportTable"></tbody>
+
+</table>
+
+</div>
+</div>
+
+</section>
+
+
+<!-- MATCHES -->
+<section id="matches" class="admin-section">
+
+<div class="panel">
+
+<h2>Possible Matches</h2>
+
+<p>
+    Private possible-match messages submitted
+    by public users.
+</p>
+
+<div id="matchContainer"></div>
+
+</div>
+
+</section>
+
+
+<!-- RESOLVED -->
+<section id="resolved" class="admin-section">
+
+<div class="panel">
+
+<h2>Resolved Cases</h2>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+    <th>Case</th>
+    <th>Item</th>
+    <th>Location</th>
+    <th>Status</th>
+</tr>
+</thead>
+
+<tbody id="resolvedTable"></tbody>
+
+</table>
+
+</div>
+</div>
+
+</section>
+
+</main>
+</div>
+
+
+<script>
+
+/* =========================
+   DATA STORAGE
+========================= */
+
+let loginType = "public";
+let selectedCategory = "All";
+
+const defaultReports = [
+    {
+        caseNumber:"LF-1001",
+        category:"Electronics",
+        item:"Black Wireless Headphones",
+        location:"Darwin CBD",
+        date:"2 Oct 2026",
+        description:"Black over-ear wireless headphones.",
+        status:"Approved"
+    },
+    {
+        caseNumber:"LF-1002",
+        category:"Keys",
+        item:"Set of Keys",
+        location:"Casuarina",
+        date:"3 Oct 2026",
+        description:"Small set of keys with a keyring.",
+        status:"Awaiting Review"
+    },
+    {
+        caseNumber:"LF-1003",
+        category:"Bags",
+        item:"Blue Backpack",
+        location:"Darwin Waterfront",
+        date:"4 Oct 2026",
+        description:"Medium-sized blue backpack.",
+        status:"Approved"
+    }
+];
+
+const defaultMatches = [
+    {
+        caseNumber:"LF-1001",
+        name:"Alex",
+        message:"I found black headphones near Darwin CBD."
+    }
+];
+
+let reports = JSON.parse(
+    localStorage.getItem("lostFoundReports")
+) || defaultReports;
+
+let possibleMatches = JSON.parse(
+    localStorage.getItem("lostFoundMatches")
+) || defaultMatches;
+
+function saveData(){
+    localStorage.setItem(
+        "lostFoundReports",
+        JSON.stringify(reports)
+    );
+
+    localStorage.setItem(
+        "lostFoundMatches",
+        JSON.stringify(possibleMatches)
+    );
+}
+
+saveData();
+
+
+/* LOGIN TYPE */
+
+function chooseLogin(type){
+
+    loginType = type;
+
+    document
+        .getElementById("publicChoice")
+        .classList.remove("active");
+
+    document
+        .getElementById("adminChoice")
+        .classList.remove("active");
+
+    document
+        .getElementById("loginError")
+        .style.display = "none";
+
+    if(type === "public"){
+
+        document
+            .getElementById("publicChoice")
+            .classList.add("active");
+
+        document
+            .getElementById("loginBtn")
+            .textContent = "Public User Login";
+
+    }else{
+
+        document
+            .getElementById("adminChoice")
+            .classList.add("active");
+
+        document
+            .getElementById("loginBtn")
+            .textContent = "Administrator Login";
+    }
+}
+
+
+/* LOGIN */
+
+document
+.getElementById("loginForm")
+.addEventListener("submit",function(event){
+
+    event.preventDefault();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    if(loginType === "public"){
+
+        document
+            .getElementById("loginPage")
+            .classList.add("hidden");
+
+        document
+            .getElementById("publicPage")
+            .classList.remove("hidden");
+
+        document
+            .getElementById("userEmail")
+            .textContent = email;
+
+        renderPublicItems();
+
+        window.scrollTo(0,0);
+
+    }else{
+
+        if(
+            email === "admin@lostfound.com" &&
+            password === "admin123"
+        ){
+
+            document
+                .getElementById("loginPage")
+                .classList.add("hidden");
+
+            document
+                .getElementById("adminPage")
+                .classList.remove("hidden");
+
+            updateAdmin();
+
+            window.scrollTo(0,0);
+
+        }else{
+
+            document
+                .getElementById("loginError")
+                .style.display = "block";
+        }
+    }
+});
+
+
+/* LOGOUT */
+
+function logout(){
+
+    document
+        .getElementById("publicPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("adminPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("loginPage")
+        .classList.remove("hidden");
+
+    document
+        .getElementById("loginForm")
+        .reset();
+
+    document
+        .getElementById("loginError")
+        .style.display = "none";
+
+    window.scrollTo(0,0);
+}
+
+
+/* SCROLL */
+
+function goTo(section){
+
+    document
+        .getElementById(section)
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+}
+
+
+/* ESCAPE USER TEXT */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+
+/* PUBLIC ITEMS */
+
+function renderPublicItems(){
+
+    const container =
+        document.getElementById("itemContainer");
+
+    const search =
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    container.innerHTML = "";
+
+    const approvedItems =
+        reports.filter(function(report){
+
+            const approved =
+                report.status === "Approved";
+
+            const categoryMatch =
+                selectedCategory === "All" ||
+                report.category === selectedCategory;
+
+            const searchable =
+                (
+                    report.item + " " +
+                    report.location + " " +
+                    report.description
+                ).toLowerCase();
+
+            return (
+                approved &&
+                categoryMatch &&
+                searchable.includes(search)
+            );
+        });
+
+    if(approvedItems.length === 0){
+
+        container.innerHTML =
+            "<p>No approved reports found.</p>";
+
+        return;
+    }
+
+    approvedItems.forEach(function(report){
+
+        const card =
+            document.createElement("div");
+
+        card.className = "item-card";
+
+        card.innerHTML =
+            '<span class="tag">' +
+            escapeHTML(report.category) +
+            '</span>' +
+
+            '<h3>' +
+            escapeHTML(report.item) +
+            '</h3>' +
+
+            '<div class="case">' +
+            escapeHTML(report.caseNumber) +
+            ' • ' +
+            escapeHTML(report.date) +
+            ' • ' +
+            escapeHTML(report.location) +
+            '</div>' +
+
+            '<p>' +
+            escapeHTML(report.description) +
+            '</p>' +
+
+            '<button class="btn btn-outline">' +
+            'I May Have Found This' +
+            '</button>';
+
+        card
+            .querySelector("button")
+            .addEventListener("click",function(){
+
+                chooseMatch(report.caseNumber);
+
+            });
+
+        container.appendChild(card);
+    });
+}
+
+
+/* SEARCH */
+
+document
+.getElementById("searchInput")
+.addEventListener(
+    "input",
+    renderPublicItems
+);
+
+
+/* FILTER */
+
+document
+.querySelectorAll(".filter")
+.forEach(function(button){
+
+    button.addEventListener("click",function(){
+
+        document
+            .querySelectorAll(".filter")
+            .forEach(function(btn){
+                btn.classList.remove("active");
+            });
+
+        button.classList.add("active");
+
+        selectedCategory =
+            button.getAttribute("data-category");
+
+        renderPublicItems();
+    });
+});
+
+
+/* SELECT MATCH */
+
+function chooseMatch(caseNumber){
+
+    document
+        .getElementById("matchCase")
+        .value = caseNumber;
+
+    goTo("match");
+}
+
+
+/* REPORT LOST ITEM */
+
+document
+.getElementById("reportForm")
+.addEventListener("submit",function(event){
+
+    event.preventDefault();
+
+    const numbers =
+        reports.map(function(report){
+
+            return parseInt(
+                report.caseNumber.replace("LF-","")
+            ) || 1000;
+
+        });
+
+    const highest =
+        numbers.length
+        ? Math.max(...numbers)
+        : 1000;
+
+    const caseNumber =
+        "LF-" + (highest + 1);
+
+    const newReport = {
+
+        caseNumber:caseNumber,
+
+        category:
+            document
+            .getElementById("itemCategory")
+            .value,
+
+        item:
+            document
+            .getElementById("itemName")
+            .value.trim(),
+
+        location:
+            document
+            .getElementById("itemLocation")
+            .value.trim(),
+
+        date:
+            document
+            .getElementById("dateLost")
+            .value,
+
+        description:
+            document
+            .getElementById("itemDescription")
+            .value.trim(),
+
+        status:"Awaiting Review"
+    };
+
+    reports.push(newReport);
+
+    saveData();
+
+    document
+        .getElementById("newCaseNumber")
+        .textContent = caseNumber;
+
+    document
+        .getElementById("reportSuccess")
+        .style.display = "block";
+
+    this.reset();
+
+    updateAdmin();
+});
+
+
+/* POSSIBLE MATCH */
+
+document
+.getElementById("matchForm")
+.addEventListener("submit",function(event){
+
+    event.preventDefault();
+
+    possibleMatches.push({
+
+        caseNumber:
+            document
+            .getElementById("matchCase")
+            .value.trim(),
+
+        name:
+            document
+            .getElementById("matchName")
+            .value.trim(),
+
+        message:
+            document
+            .getElementById("matchMessage")
+            .value.trim()
+    });
+
+    saveData();
+
+    alert(
+        "Possible match submitted privately."
+    );
+
+    this.reset();
+
+    renderMatches();
+});
+
+
+/* ADMIN NAVIGATION */
+
+function showAdminSection(sectionId,button){
+
+    document
+        .querySelectorAll(".admin-section")
+        .forEach(function(section){
+
+            section.classList.remove("active");
+
+        });
+
+    document
+        .getElementById(sectionId)
+        .classList.add("active");
+
+    document
+        .querySelectorAll(".admin-nav")
+        .forEach(function(btn){
+
+            btn.classList.remove("active");
+
+        });
+
+    button.classList.add("active");
+
+    updateAdmin();
+}
+
+
+/* ADMIN REPORTS */
+
+function renderAdminReports(){
+
+    const table =
+        document.getElementById("adminReportTable");
+
+    table.innerHTML = "";
+
+    reports.forEach(function(report,index){
+
+        if(report.status === "Resolved"){
+            return;
+        }
+
+        let statusClass = "pending";
+
+        if(report.status === "Approved"){
+            statusClass = "approved";
+        }
+
+        if(
+            report.status ===
+            "More Information Needed"
+        ){
+            statusClass = "need-info";
+        }
+
+        const row =
+            document.createElement("tr");
+
+        row.innerHTML =
+            "<td>" +
+            escapeHTML(report.caseNumber) +
+            "</td>" +
+
+            "<td>" +
+            escapeHTML(report.item) +
+            "</td>" +
+
+            "<td>" +
+            escapeHTML(report.location) +
+            "</td>" +
+
+            "<td>" +
+            escapeHTML(report.date) +
+            "</td>" +
+
+            '<td><span class="status ' +
+            statusClass +
+            '">' +
+            escapeHTML(report.status) +
+            "</span></td>" +
+
+            '<td>' +
+
+            '<button class="action-btn approve-btn" ' +
+            'onclick="approveReport(' +
+            index +
+            ')">Approve</button>' +
+
+            '<button class="action-btn info-btn" ' +
+            'onclick="needInfo(' +
+            index +
+            ')">Need Info</button>' +
+
+            '<button class="action-btn resolve-btn" ' +
+            'onclick="resolveReport(' +
+            index +
+            ')">Resolve</button>' +
+
+            "</td>";
+
+        table.appendChild(row);
+    });
+}
+
+
+/* APPROVE */
+
+function approveReport(index){
+
+    reports[index].status = "Approved";
+
+    saveData();
+
+    updateAdmin();
+
+    alert(
+        reports[index].caseNumber +
+        " has been approved and is now visible publicly."
+    );
+}
+
+
+/* NEED INFO */
+
+function needInfo(index){
+
+    reports[index].status =
+        "More Information Needed";
+
+    saveData();
+
+    updateAdmin();
+}
+
+
+/* RESOLVE */
+
+function resolveReport(index){
+
+    if(
+        confirm(
+            "Mark this case as resolved?"
+        )
+    ){
+
+        reports[index].status =
+            "Resolved";
+
+        saveData();
+
+        updateAdmin();
+    }
+}
+
+
+/* RESOLVED */
+
+function renderResolved(){
+
+    const table =
+        document.getElementById("resolvedTable");
+
+    table.innerHTML = "";
+
+    reports
+    .filter(function(report){
+
+        return report.status === "Resolved";
+
+    })
+    .forEach(function(report){
+
+        const row =
+            document.createElement("tr");
+
+        row.innerHTML =
+            "<td>" +
+            escapeHTML(report.caseNumber) +
+            "</td>" +
+
+            "<td>" +
+            escapeHTML(report.item) +
+            "</td>" +
+
+            "<td>" +
+            escapeHTML(report.location) +
+            "</td>" +
+
+            '<td><span class="status resolved">' +
+            "Resolved" +
+            "</span></td>";
+
+        table.appendChild(row);
+    });
+}
+
+
+/* MATCHES */
+
+function renderMatches(){
+
+    const container =
+        document.getElementById("matchContainer");
+
+    container.innerHTML = "";
+
+    if(possibleMatches.length === 0){
+
+        container.innerHTML =
+            "<p>No possible matches submitted.</p>";
+
+        return;
+    }
+
+    possibleMatches.forEach(function(match){
+
+        const card =
+            document.createElement("div");
+
+        card.className = "match-card";
+
+        card.innerHTML =
+            "<h3>Possible Match — " +
+            escapeHTML(match.caseNumber) +
+            "</h3>" +
+
+            "<p><strong>Submitted by:</strong> " +
+            escapeHTML(match.name) +
+            "</p>" +
+
+            "<p>" +
+            escapeHTML(match.message) +
+            "</p>" +
+
+            "<small>" +
+            "Ownership must be verified before returning an item." +
+            "</small>";
+
+        container.appendChild(card);
+    });
+}
+
+
+/* STATISTICS */
+
+function updateStatistics(){
+
+    document
+        .getElementById("totalReports")
+        .textContent =
+        reports.length;
+
+    document
+        .getElementById("pendingReports")
+        .textContent =
+        reports.filter(function(report){
+
+            return (
+                report.status ===
+                "Awaiting Review"
+            );
+
+        }).length;
+
+    document
+        .getElementById("approvedReports")
+        .textContent =
+        reports.filter(function(report){
+
+            return (
+                report.status ===
+                "Approved"
+            );
+
+        }).length;
+
+    document
+        .getElementById("resolvedReports")
+        .textContent =
+        reports.filter(function(report){
+
+            return (
+                report.status ===
+                "Resolved"
+            );
+
+        }).length;
+}
+
+
+/* UPDATE EVERYTHING */
+
+function updateAdmin(){
+
+    updateStatistics();
+    renderAdminReports();
+    renderResolved();
+    renderMatches();
+    renderPublicItems();
+}
+
+
+/* INITIAL LOAD */
+
+updateAdmin();
+
+</script>
+
+</body>
+</html>
